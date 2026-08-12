@@ -1,8 +1,8 @@
-Task Manager Backend:-
+## Task Manager Backend:-
 A secure RESTful backend for a Task Management application built using Java 17, Spring Boot, Spring Security, JWT, Spring Data JPA, MySQL, Gmail SMTP, Google Gemini API, and Docker.
 The backend provides user authentication, authorization, task management, AI-powered task generation, validation, exception handling, and database persistence.
 
-=>Features
+## Features
 
 User registration
 User login
@@ -32,7 +32,7 @@ Docker containerization
 Maven build system
 
 
-=>Technologies Used
+## Technologies Used
 
 Technology	Purpose
 Java 17	Backend programming
