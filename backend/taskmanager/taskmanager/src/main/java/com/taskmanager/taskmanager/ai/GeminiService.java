@@ -66,9 +66,7 @@ public class GeminiService {
 
             String responseText = response.text();
 
-            if (responseText == null ||
-                    responseText.isBlank()) {
-
+            if (responseText == null || responseText.isBlank()) {
                 return fallbackResponse(title);
             }
 
@@ -95,16 +93,18 @@ public class GeminiService {
                     AiTaskResponse.class
             );
 
-        }catch (Exception e) {
+        } catch (Exception e) {
 
-            e.printStackTrace();
+            System.err.println(
+                    "Failed to parse Gemini response: "
+                            + e.getMessage()
+            );
 
             return fallbackResponse(title);
         }
     }
 
-    private AiTaskResponse fallbackResponse(
-            String title) {
+    private AiTaskResponse fallbackResponse(String title) {
 
         return AiTaskResponse.builder()
                 .description(
