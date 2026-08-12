@@ -6,9 +6,9 @@ The project also includes Docker support for containerizing the backend and fron
 
 ---
 
-## 🚀 Features
+## Features
 
-### 🔐 Authentication & Authorization
+### Authentication & Authorization
 
 * User registration
 * User login
@@ -34,7 +34,7 @@ Authenticated users can:
 * Add task descriptions
 * Track estimated effort
 
-### 🤖 AI-Powered Task Generation
+### AI-Powered Task Generation
 
 The application integrates with **Google Gemini** to automatically generate task details.
 
@@ -58,7 +58,7 @@ Estimated effort: 1 day
 
 The backend also contains a fallback response mechanism if the Gemini API fails or returns an invalid response.
 
-### 🗄️ Database
+###  Database
 
 * MySQL database
 * Spring Data JPA
@@ -67,7 +67,7 @@ The backend also contains a fallback response mechanism if the Gemini API fails 
 * User and task persistence
 * User-task relationship
 
-### 🎨 Frontend
+###  Frontend
 
 The frontend is built using:
 
@@ -94,7 +94,7 @@ The frontend provides:
 * Authentication state management
 * Task state management
 
-### 🛡️ Security
+###  Security
 
 * JWT authentication
 * BCrypt password encoding
@@ -104,7 +104,7 @@ The frontend provides:
 * Environment variables for sensitive configuration
 * API error handling without exposing stack traces
 
-### 🐳 Docker
+###  Docker
 
 The project includes Docker support for:
 
@@ -116,7 +116,7 @@ The goal is to allow the complete application to be started using Docker Compose
 
 ---
 
-# 🏗️ Application Architecture
+#  Application Architecture
 
 ```text
                     Task Manager
@@ -138,7 +138,7 @@ The goal is to allow the complete application to be started using Docker Compose
 
 ---
 
-# 🛠️ Technologies Used
+#  Technologies Used
 
 ## Backend
 
@@ -281,7 +281,7 @@ task-manager/
 
 ---
 
-# 🔌 REST API Endpoints
+#  REST API Endpoints
 
 ## Authentication
 
@@ -328,7 +328,7 @@ The API returns a JWT token that is used for authenticated requests.
 
 ---
 
-# 📋 Task APIs
+#  Task APIs
 
 All task APIs require JWT authentication.
 
@@ -376,7 +376,7 @@ PATCH /api/tasks/{id}/status
 
 ---
 
-# 🤖 AI API
+#  AI API
 
 ### Generate Task Details
 
@@ -406,7 +406,7 @@ If the Gemini API fails, the backend returns a fallback response instead of cras
 
 ---
 
-# 🔐 Authentication Flow
+#  Authentication Flow
 
 ```text
 User
@@ -471,7 +471,7 @@ MySQL
 
 ---
 
-# 🤖 Gemini AI Flow
+#  Gemini AI Flow
 
 ```text
 User enters task title
@@ -512,7 +512,7 @@ gemini-2.5-flash
 
 ---
 
-# 🗄️ Database Configuration
+#  Database Configuration
 
 The application uses MySQL.
 
@@ -540,7 +540,7 @@ This allows Hibernate to update the database schema based on the application's e
 
 ---
 
-# 🔑 Environment Variables
+#  Environment Variables
 
 Sensitive values should not be committed to GitHub.
 
@@ -596,7 +596,7 @@ to document the required variables.
 
 ---
 
-# 🖥️ Running the Project Locally
+#  Running the Project Locally
 
 ## Prerequisites
 
@@ -616,7 +616,7 @@ For Docker execution:
 
 ---
 
-# ▶️ Running the Backend
+#  Running the Backend
 
 Navigate to the backend directory:
 
@@ -644,7 +644,7 @@ http://localhost:8080
 
 ---
 
-# ▶️ Running the Frontend
+#  Running the Frontend
 
 Navigate to:
 
@@ -678,7 +678,7 @@ http://localhost:8080
 
 ---
 
-# 🧪 Building the Backend
+#  Building the Backend
 
 From the backend directory:
 
@@ -700,7 +700,7 @@ target/
 
 ---
 
-# 🧪 Building the Frontend
+#  Building the Frontend
 
 From the frontend directory:
 
@@ -716,7 +716,7 @@ dist/
 
 ---
 
-# 🐳 Docker
+#  Docker
 
 The project supports containerization of the application.
 
@@ -748,7 +748,7 @@ http://localhost:8080
 
 ---
 
-# 🐳 Frontend Docker Image
+#  Frontend Docker Image
 
 Navigate to the frontend directory:
 
@@ -790,7 +790,7 @@ Nginx
 
 ---
 
-# 🐳 Docker Compose
+#  Docker Compose
 
 The complete application can be run using Docker Compose.
 
@@ -855,7 +855,7 @@ docker compose logs frontend
 
 ---
 
-# 🔒 Security Considerations
+#  Security Considerations
 
 The project follows several security practices:
 
@@ -881,7 +881,7 @@ Application passwords
 
 ---
 
-# ⚠️ Configuration Before Running
+#  Configuration Before Running
 
 Before running the project, make sure the required environment variables are configured.
 
@@ -910,7 +910,7 @@ Do not use the example values in production.
 
 ---
 
-# 🧩 Error Handling
+#  Error Handling
 
 The backend includes centralized exception handling through:
 
@@ -1003,7 +1003,7 @@ CustomUserDetailsService
 
 ---
 
-# 🧪 Testing
+#  Testing
 
 The backend contains a test structure under:
 
@@ -1025,7 +1025,7 @@ On Windows:
 
 ---
 
-# 🌐 Frontend API Communication
+#  Frontend API Communication
 
 The frontend centralizes API communication through:
 
@@ -1052,7 +1052,7 @@ Authorization: Bearer <token>
 
 ---
 
-# 🔄 Git Workflow
+#  Git Workflow
 
 After making changes:
 
@@ -1080,7 +1080,7 @@ git push
 
 ---
 
-# 📌 Example Development Workflow
+#  Example Development Workflow
 
 ```text
 1. Clone repository
@@ -1120,7 +1120,7 @@ Docker workflow:
 
 ---
 
-# 🎯 Project Objectives
+#  Project Objectives
 
 The main objectives of this project are:
 
@@ -1137,7 +1137,7 @@ The main objectives of this project are:
 
 ---
 
-# 👨‍💻 Author
+#  Author
 
 **Chirag K**
 
@@ -1147,6 +1147,4 @@ Full-Stack Task Management Application built using:
 
 ---
 
-# 📄 License
 
-This project is intended for educational, demonstration, and portfolio purposes.
