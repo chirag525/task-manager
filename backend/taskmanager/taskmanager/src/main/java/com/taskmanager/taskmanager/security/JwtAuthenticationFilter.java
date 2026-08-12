@@ -16,13 +16,23 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter
-        extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    private final CustomUserDetailsService
-            customUserDetailsService;
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+
+        String path = request.getServletPath();
+
+        return path.equals("/")
+                || path.equals("/health")
+                || path.equals("/api/auth/login")
+                || path.equals("/api/auth/register")
+                || path.startsWith("/swagger-ui/")
+                || path.startsWith("/v3/api-docs");
+    }
 
     @Override
     protected void doFilterInternal(
@@ -31,8 +41,7 @@ public class JwtAuthenticationFilter
             FilterChain filterChain)
             throws ServletException, IOException {
 
-        final String authHeader =
-                request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null ||
                 !authHeader.startsWith("Bearer ")) {
@@ -41,13 +50,11 @@ public class JwtAuthenticationFilter
             return;
         }
 
-        final String jwt =
-                authHeader.substring(7);
+        String jwt = authHeader.substring(7);
 
         try {
 
-            final String username =
-                    jwtService.extractUsername(jwt);
+            String username = jwtService.extractUsername(jwt);
 
             if (username != null &&
                     SecurityContextHolder
@@ -62,8 +69,7 @@ public class JwtAuthenticationFilter
                         jwt,
                         userDetails.getUsername())) {
 
-                    UsernamePasswordAuthenticationToken
-                            authentication =
+                    UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
                                     userDetails,
                                     null,
@@ -82,9 +88,9 @@ public class JwtAuthenticationFilter
             }
 
         } catch (Exception e) {
-
-            // Invalid/expired JWT.
-            // Request will continue without authentication.
+            System.err.println(
+                    "JWT authentication failed: " + e.getMessage()
+            );
         }
 
         filterChain.doFilter(request, response);

@@ -42,10 +42,8 @@ public class SecurityConfig {
             HttpSecurity http) throws Exception {
 
         http
-                // REST API -> CSRF disabled
                 .csrf(csrf -> csrf.disable())
 
-                // JWT -> no session
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
@@ -54,7 +52,13 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // Public authentication endpoints
+                        // Health/root endpoint
+                        .requestMatchers(
+                                "/",
+                                "/health"
+                        ).permitAll()
+
+                        // Authentication
                         .requestMatchers(
                                 "/api/auth/register",
                                 "/api/auth/login"
@@ -66,13 +70,11 @@ public class SecurityConfig {
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        // All other APIs require JWT
+                        // Everything else requires JWT
                         .anyRequest().authenticated()
                 )
 
-                .authenticationProvider(
-                        authenticationProvider()
-                )
+                .authenticationProvider(authenticationProvider())
 
                 .addFilterBefore(
                         jwtAuthenticationFilter,
