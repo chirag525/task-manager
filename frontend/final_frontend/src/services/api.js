@@ -1,4 +1,6 @@
-const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '')
+const API_BASE = (
+  import.meta.env.VITE_API_URL || '/api'
+).replace(/\/$/, '')
 
 async function request(path, options = {}) {
   const token = localStorage.getItem('taskflow_token')
@@ -17,9 +19,12 @@ async function request(path, options = {}) {
     headers,
   })
 
-  if (response.status === 204) return null
+  if (response.status === 204) {
+    return null
+  }
 
   const contentType = response.headers.get('content-type') || ''
+
   const data = contentType.includes('application/json')
     ? await response.json()
     : await response.text()
