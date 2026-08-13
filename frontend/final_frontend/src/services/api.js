@@ -1,6 +1,4 @@
-const API_BASE = (
-  import.meta.env.VITE_API_URL || '/api'
-).replace(/\/$/, '')
+const API_BASE = 'https://task-manager-525.onrender.com/api'
 
 async function request(path, options = {}) {
   const token = localStorage.getItem('taskflow_token')
