@@ -43,16 +43,19 @@ public class SecurityConfig {
         return provider;
     }
 
+    // CORS Configuration
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
+        // Allowed frontend URLs
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "https://task-manager-iupk4e9x9-code-max1.vercel.app"
         ));
 
+        // Allowed HTTP methods
         configuration.setAllowedMethods(List.of(
                 "GET",
                 "POST",
@@ -62,8 +65,10 @@ public class SecurityConfig {
                 "OPTIONS"
         ));
 
+        // Allow Authorization header and other required headers
         configuration.setAllowedHeaders(List.of("*"));
 
+        // Required for credential-based cross-origin requests
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
@@ -74,43 +79,53 @@ public class SecurityConfig {
         return source;
     }
 
+    // Spring Security Configuration
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http) throws Exception {
 
         http
+                // Enable CORS
                 .cors(Customizer.withDefaults())
 
+                // Disable CSRF because we use JWT
                 .csrf(csrf -> csrf.disable())
 
+                // Stateless session because JWT handles authentication
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
 
+                // Authorization rules
                 .authorizeHttpRequests(auth -> auth
 
+                        // Public health/root endpoints
                         .requestMatchers(
                                 "/",
                                 "/health"
                         ).permitAll()
 
+                        // Public authentication endpoints
                         .requestMatchers(
-                                "/api/auth/register",
-                                "/api/auth/login"
+                                "/api/auth/**"
                         ).permitAll()
 
+                        // Swagger endpoints
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
 
+                        // All other endpoints require JWT authentication
                         .anyRequest().authenticated()
                 )
 
+                // Authentication provider
                 .authenticationProvider(authenticationProvider())
 
+                // JWT filter before Spring Security's username/password filter
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
