@@ -27,10 +27,12 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService customUserDetailsService;
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -43,19 +45,22 @@ public class SecurityConfig {
         return provider;
     }
 
-    // CORS Configuration
+
+    // =========================
+    // CORS CONFIGURATION
+    // =========================
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Allowed frontend URLs
-        configuration.setAllowedOrigins(List.of(
+        // Allow local development and all Vercel deployments
+        configuration.setAllowedOriginPatterns(List.of(
                 "http://localhost:5173",
-                "https://task-manager-iupk4e9x9-code-max1.vercel.app"
+                "https://*.vercel.app"
         ));
 
-        // Allowed HTTP methods
+        // Allow required HTTP methods
         configuration.setAllowedMethods(List.of(
                 "GET",
                 "POST",
@@ -65,12 +70,13 @@ public class SecurityConfig {
                 "OPTIONS"
         ));
 
-        // Allow Authorization header and other required headers
+        // Allow Authorization, Content-Type, etc.
         configuration.setAllowedHeaders(List.of("*"));
 
-        // Required for credential-based cross-origin requests
+        // JWT can work with this enabled
         configuration.setAllowCredentials(true);
 
+        // Apply CORS configuration to all endpoints
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
@@ -79,19 +85,23 @@ public class SecurityConfig {
         return source;
     }
 
-    // Spring Security Configuration
+
+    // =========================
+    // SPRING SECURITY
+    // =========================
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http) throws Exception {
 
         http
+
                 // Enable CORS
                 .cors(Customizer.withDefaults())
 
-                // Disable CSRF because we use JWT
+                // Disable CSRF because authentication uses JWT
                 .csrf(csrf -> csrf.disable())
 
-                // Stateless session because JWT handles authentication
+                // JWT authentication is stateless
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
@@ -101,13 +111,13 @@ public class SecurityConfig {
                 // Authorization rules
                 .authorizeHttpRequests(auth -> auth
 
-                        // Public health/root endpoints
+                        // Public endpoints
                         .requestMatchers(
                                 "/",
                                 "/health"
                         ).permitAll()
 
-                        // Public authentication endpoints
+                        // Authentication endpoints
                         .requestMatchers(
                                 "/api/auth/**"
                         ).permitAll()
@@ -118,14 +128,14 @@ public class SecurityConfig {
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        // All other endpoints require JWT authentication
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
 
                 // Authentication provider
                 .authenticationProvider(authenticationProvider())
 
-                // JWT filter before Spring Security's username/password filter
+                // JWT filter
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
